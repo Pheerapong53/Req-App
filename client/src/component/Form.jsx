@@ -1,10 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {useNavigate} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../img/logo.png";
 import "../assets/styles/style.css";
 
-function Form() {
+const Form = () => {
+
+//add data to localStorage
+const [form, setForm] = useState([]);
+
+useEffect(() => {
+
+  localStorage.setItem('form', JSON.stringify(form))
+}, [])
+
   const [corg, setCorg] = useState(" ");
   const [cname, setCname] = useState(" ");
   const [ctel, setCtel] = useState(" ");
@@ -30,6 +39,36 @@ function Form() {
   const [designFile, setDesignFile] = useState();
 
   const navigate = useNavigate();
+
+const handleFormSubmit = () => {
+  setForm([
+    {
+      corg: corg,
+      cname: cname,
+      ctel: ctel,
+      cdep: cdep,
+      softname: softname,
+      type: type,
+      obj: obj,
+      des: des,
+      os: os,
+      hardware: hardware,
+      software: software,
+      db: db,
+      user: user,
+      other: other,
+      orguser: orguser,
+      place: place,
+      producer: producer,
+      admin: admin,
+      orgown: orgown,
+      orgadmin: orgadmin,
+      useFile: useFile,
+      userFile: userFile,
+      designFile: designFile
+    },
+  ])
+}
 
   const handleSubmit = () => {
     navigate('/pdf',
@@ -83,7 +122,7 @@ function Form() {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleFormSubmit}>
           <input
             type="text"
             className="form-control"
