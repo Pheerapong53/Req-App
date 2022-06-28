@@ -1,36 +1,73 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import logo from "../img/logo.png";
 import { useLocation } from "react-router-dom";
+import Axios  from "axios"; 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../assets/styles/style.css";
 
 function FormPdf() {
-  const location = useLocation();
-  const corg = location.state.corg;
-  const cname = location.state.cname;
-  const ctel = location.state.ctel;
-  const cdep = location.state.cdep;
-  const softname = location.state.softname;
-  const type = location.state.type;
-  const obj = location.state.obj;
-  const des = location.state.des;
-  const os = location.state.os;
-  const hardware = location.state.hardware;
-  const software = location.state.software;
-  const db = location.state.db;
-  const user = location.state.user;
-  const other = location.state.other;
-  const orguser = location.state.orguser;
-  const place = location.state.place;
-  const producer = location.state.producer;
-  const admin = location.state.admin;
-  const orgown = location.state.orgown;
-  const orgadmin = location.state.orgadmin;
-  const useFile = location.state.useFile;
-  const userFile = location.state.userFile;
-  const designFile = location.state.designFile;
+  const [isChecked, setIsChecked] = useState(false);
 
-// console.log(useFile);
+  const handleOnChange = () => {
+    setIsChecked(!isChecked);
+  };
+
+  const location = useLocation();
+  const corg = location.state.initialValue.corg;
+  const cname = location.state.initialValue.cname;
+  const ctel = location.state.initialValue.ctel;
+  const cdep = location.state.initialValue.cdep;
+  const softname = location.state.initialValue.softname;
+  const type = location.state.initialValue.type;
+  const obj = location.state.initialValue.obj;
+  const des = location.state.initialValue.des;
+  const os = location.state.initialValue.os;
+  const hardware = location.state.initialValue.hardware;
+  const software = location.state.initialValue.software;
+  const db = location.state.initialValue.db;
+  const user = location.state.initialValue.user;
+  const other = location.state.initialValue.other;
+  const orguser = location.state.initialValue.orguser;
+  const place = location.state.initialValue.place;
+  const producer = location.state.initialValue.producer;
+  const admin = location.state.initialValue.admin;
+  const orgown = location.state.initialValue.orgown;
+  const orgadmin = location.state.initialValue.orgadmin;
+  const useFile = location.state.initialValue.useFile;
+  const userFile = location.state.initialValue.userFile;
+  const designFile = location.state.initialValue.designFile;
+
+  const addData = () => {
+    Axios.post("http://localhost:3001/AddData", {
+      corg: corg,
+      cname: cname,
+      ctel: ctel,
+      cdep: cdep,
+      softname: softname,
+      type: type,
+      obj: obj,
+      des: des,
+      os: os,
+      hardware: hardware,
+      software: software,
+      db: db,
+      user: user,
+      other: other,
+      orguser: orguser,
+      place: place,
+      producer: producer,
+      admin: admin,
+      orgown: orgown,
+      orgadmin: orgadmin,
+      useFile: useFile,
+      userFile: userFile,
+      designFile: designFile,
+    }).then((res) => {
+      console.log(res);
+      console.log(res.data);
+    });
+  };
+  //console.log(location);
   return (
     <div className="container-sm">
       <div className="text-center my-3">
@@ -67,7 +104,7 @@ function FormPdf() {
           <input
             type="radio"
             className="form-check-input"
-            checked = {type === 'ซอฟต์แวร์ประเภทยุทธการ (Combat Software)'}
+            checked={type === "ซอฟต์แวร์ประเภทยุทธการ (Combat Software)"}
             id="type"
             name="type"
             value="ซอฟต์แวร์ประเภทยุทธการ (Combat Software)"
@@ -77,7 +114,9 @@ function FormPdf() {
           <input
             type="radio"
             className="form-check-input"
-            checked = {type === 'ซอฟต์แวร์ประเภทกึ่งยุทธการ (Semi-Combat Software)'}
+            checked={
+              type === "ซอฟต์แวร์ประเภทกึ่งยุทธการ (Semi-Combat Software)"
+            }
             id="type"
             name="type"
             value="ซอฟต์แวร์ประเภทกึ่งยุทธการ (Semi-Combat Software)"
@@ -87,7 +126,9 @@ function FormPdf() {
           <input
             type="radio"
             className="form-check-input"
-            checked = {type === 'ซอฟต์แวร์ประเภทสนับสนุนทั่วไป (Support Software)'}
+            checked={
+              type === "ซอฟต์แวร์ประเภทสนับสนุนทั่วไป (Support Software)"
+            }
             id="type"
             name="type"
             value="ซอฟต์แวร์ประเภทสนับสนุนทั่วไป (Support Software)"
@@ -99,20 +140,12 @@ function FormPdf() {
 
       <div className="my-3">
         <b>วัตถุประสงค์ของซอฟต์แวร์</b>
-        <textarea
-          className="form-control"
-          rows="5"
-          value={obj}
-          />
+        <textarea className="form-control" rows="5" value={obj} />
       </div>
 
       <div className="my-3">
         <b>คำอธิบายเกี่ยวกับคุณลักษณะของซอฟต์แวร์โดยสังเขป</b>
-        <textarea
-          className="form-control"
-          rows="5"
-          value={des}
-          />
+        <textarea className="form-control" rows="5" value={des} />
       </div>
 
       <b>ระบบการทำงานของซอฟต์แวร์โดยสังเขป</b>
@@ -137,6 +170,8 @@ function FormPdf() {
           จำนวนผู้ใช้งานโดยประมาณ <u>{user}</u> User(s)
         </span>
         <br />
+        <span>อื่น ๆ (ระบุ)</span>
+        <textarea className="form-control" rows="5" value={other} />
       </div>
 
       <p className="my-3">
@@ -159,39 +194,67 @@ function FormPdf() {
       </p>
 
       <p className="my-3">
-        <b>ช่องทางการใช้งานซอฟต์แวร์</b> <u>{useFile !== undefined ? useFile.name : []}</u>
+        <b>ช่องทางการใช้งานซอฟต์แวร์</b>{" "}
+        <u>{useFile !== undefined ? useFile.name : []}</u>
       </p>
 
       <p className="my-3">
-        <b>คู่มือการใช้งานซอฟต์แวร์</b> <u>{userFile !== undefined ? userFile.name : []}</u>
+        <b>คู่มือการใช้งานซอฟต์แวร์</b>{" "}
+        <u>{userFile !== undefined ? userFile.name : []}</u>
       </p>
 
       <p className="my-3">
-        <b>เอกสารออกแบบซอฟต์แวร์</b> <u>{designFile !== undefined ? designFile.name : []}</u>
+        <b>เอกสารออกแบบซอฟต์แวร์</b>{" "}
+        <u>{designFile !== undefined ? designFile.name : []}</u>
       </p>
 
       <div className="text-center my-3">
-          <input className="form-check-input mx-2" type='checkbox' />
-          <label className="form-check-label">
-              <b>ยืนยันความถูกต้อง</b>
-          </label>
+        <input
+          className="form-check-input mx-2"
+          type="checkbox"
+          name="validate"
+          checked={isChecked}
+          onChange={handleOnChange}
+        />
+        <label className="form-check-label">
+          <b>ยืนยันความถูกต้อง</b>
+        </label>
       </div>
 
       <div className="row justify-content-center mb-4">
-          <div className="col-auto">
-              <a href="/"><button className="btn-lg btn-primary">BACK</button></a>
-          </div>
-          <div className="col-auto">
-              <button className="btn-lg btn-info">PRINT</button>
-          </div>
-          <div className="col-auto">
-              <button className="btn-lg btn-success">SAVE</button>
-          </div>
+        <div className="col-auto">
+          <a href="/">
+            <button className="btn-lg btn-primary">BACK</button>
+          </a>
+        </div>
+        <div className="col-auto">
+          <button className="btn-lg btn-info">PRINT</button>
+        </div>
+        <div className="col-auto">
+          <button
+            className="btn-lg btn-success"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title="ยืนยันความถูกต้องก่อนทำการบันทึก"
+            disabled={!isChecked}
+            onClick={addData}
+          >
+            SAVE
+          </button>
+        </div>
       </div>
 
       <div className="text-center">
-          <h5><b className="text-danger">*กรุณาพิมพ์แบบฟอร์มด้านบนส่งตามสายงานมาที่ ศซว.ทอ.</b></h5>
-          <h5><b className="text-danger">*กรุณาพิมพ์แบบฟอร์มก่อนการบันทึกแบบฟอร์ม </b></h5>
+        <h5>
+          <b className="text-danger">
+            *กรุณาพิมพ์แบบฟอร์มด้านบนส่งตามสายงานมาที่ ศซว.ทอ.
+          </b>
+        </h5>
+        <h5>
+          <b className="text-danger">
+            *กรุณาพิมพ์แบบฟอร์มก่อนการบันทึกแบบฟอร์ม
+          </b>
+        </h5>
       </div>
     </div>
   );
