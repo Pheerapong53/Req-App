@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import logo from "../img/logo.png";
 import { useLocation } from "react-router-dom";
 import Axios  from "axios"; 
@@ -37,6 +37,17 @@ function FormPdf() {
   const userFile = location.state.initialValue.userFile;
   const designFile = location.state.initialValue.designFile;
 
+  const date = location.state.date;
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear() + 543;
+
+  
+
+  console.log(date);
+
+
+
   const addData = () => {
     Axios.post("http://localhost:3001/AddData", {
       corg: corg,
@@ -71,6 +82,7 @@ function FormPdf() {
   return (
     <div className="container-sm">
       <div className="text-center my-3">
+        <p>{day}/{month}/{year}</p>
         <img src={logo} alt="software logo" width="100" height="100" />
         <h1>แบบฟอร์มขอรับการประเมินและรับรองซอฟต์แวร์กองทัพอากาศ</h1>
       </div>

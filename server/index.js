@@ -16,7 +16,7 @@ const data = mysql.createConnection({
 
 app.post("/AddData", (req, res) => {
   const sqlInsert =
-    "INSERT INTO contactor (corg,cname,ctel,cdep,softname,type,obj,des,os,hardware,software,db,user,other,orguser,place,producer,admin,orgown,orgadmin,useFile,userFile,designFile,date) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    "INSERT INTO contactor (corg,cname,ctel,cdep,softname,type,obj,des,os,hardware,software,db,user,other,orguser,place,producer,admin,orgown,orgadmin,useFile,userFile,designFile,date) VALUES ?";
     const corg = req.body.corg;
     const cname = req.body.cname;
     const ctel = req.body.ctel;
@@ -40,7 +40,7 @@ app.post("/AddData", (req, res) => {
     const useFile = req.body.useFile;
     const userFile = req.body.userFile;
     const designFile = req.body.designFile;
-    const date = [];
+    const date = req.body.date;
   data.query(
     sqlInsert,
     [
