@@ -9,109 +9,109 @@ const Form = () => {
 
   const [corg, setCorg] = useState(() => {
     const saved = localStorage.getItem("form");
-    const Value = JSON.parse(saved).corg;
-    return Value !== " " ? Value : [];
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.corg : [];
   });
   const [cname, setCname] = useState(() => {
     const saved = localStorage.getItem("form");
-    const Value = JSON.parse(saved).cname;
-    return Value !== " " ? Value : [];
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.cname : [];
   });
   const [ctel, setCtel] = useState(() => {
     const saved = localStorage.getItem("form");
-    const Value = JSON.parse(saved).ctel;
-    return Value !== " " ? Value : [];
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.ctel : [];
   });
   const [cdep, setCdep] = useState(() => {
     const saved = localStorage.getItem("form");
-    const Value = JSON.parse(saved).cdep;
-    return Value !== " " ? Value : [];
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.cdep : [];
   });
   const [softname, setSoftname] = useState(() => {
     const saved = localStorage.getItem("form");
-    const Value = JSON.parse(saved).softname;
-    return Value !== " " ? Value : [];
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.softname : [];
   });
   const [type, setType] = useState(() => {
     const saved = localStorage.getItem("form");
-    const Value = JSON.parse(saved).type;
-    return Value !== " " ? Value : [];
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.type : [];
   });
   const [obj, setObj] = useState(() => {
     const saved = localStorage.getItem("form");
-    const Value = JSON.parse(saved).obj;
-    return Value !== " " ? Value : [];
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.obj : [];
   });
   const [des, setDes] = useState(() => {
     const saved = localStorage.getItem("form");
-    const Value = JSON.parse(saved).des;
-    return Value !== " " ? Value : [];
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.des : [];
   });
   const [os, setOs] = useState(() => {
     const saved = localStorage.getItem("form");
-    const Value = JSON.parse(saved).os;
-    return Value !== " " ? Value : [];
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.os : [];
   });
   const [hardware, setHardware] = useState(() => {
     const saved = localStorage.getItem("form");
-    const Value = JSON.parse(saved).hardware;
-    return Value !== " " ? Value : [];
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.hardware : [];
   });
   const [software, setSoftware] = useState(() => {
     const saved = localStorage.getItem("form");
-    const Value = JSON.parse(saved).software;
-    return Value !== " " ? Value : [];
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.software : [];
   });
   const [db, setDb] = useState(() => {
     const saved = localStorage.getItem("form");
-    const Value = JSON.parse(saved).db;
-    return Value !== " " ? Value : [];
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.db : [];
   });
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem("form");
-    const Value = JSON.parse(saved).user;
-    return Value !== " " ? Value : [];
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.user : [];
   });
   const [other, setOther] = useState(() => {
     const saved = localStorage.getItem("form");
-    const Value = JSON.parse(saved).other;
-    return Value !== " " ? Value : [];
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.other : [];
   });
   const [orguser, setOrguser] = useState(() => {
     const saved = localStorage.getItem("form");
-    const Value = JSON.parse(saved).orguser;
-    return Value !== " " ? Value : [];
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.orguser : [];
   });
   const [place, setPlace] = useState(() => {
     const saved = localStorage.getItem("form");
-    const Value = JSON.parse(saved).place;
-    return Value !== " " ? Value : [];
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.place : [];
   });
   const [producer, setProducer] = useState(() => {
     const saved = localStorage.getItem("form");
-    const Value = JSON.parse(saved).producer;
-    return Value !== " " ? Value : [];
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.producer : [];
   });
   const [admin, setAdmin] = useState(() => {
     const saved = localStorage.getItem("form");
-    const Value = JSON.parse(saved).admin;
-    return Value !== " " ? Value : [];
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.admin : [];
   });
   const [orgown, setOrgown] = useState(() => {
     const saved = localStorage.getItem("form");
-    const Value = JSON.parse(saved).orgown;
-    return Value !== " " ? Value : [];
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.orgown : [];
   });
   const [orgadmin, setOrgadmin] = useState(() => {
     const saved = localStorage.getItem("form");
-    const Value = JSON.parse(saved).orgadmin;
-    return Value !== " " ? Value : [];
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.orgadmin : [];
   });
 
   const [useFile, setUseFile] = useState();
   const [userFile, setUserFile] = useState();
   const [designFile, setDesignFile] = useState();
-  const [date, setDate] = useState(new Date());
+  
 
   const initialValue = {
     corg: corg,
@@ -150,11 +150,11 @@ const Form = () => {
     navigate("/pdf", {
       state: {
         initialValue,
-        date: date,
       },
     });
   };
 
+  //console.log(corg);
   return (
     <div className="container-fluid">
       <div className="container">
