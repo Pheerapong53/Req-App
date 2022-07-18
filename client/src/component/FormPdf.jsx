@@ -2,8 +2,8 @@ import React, { useState, useRef } from "react";
 import logo from "../img/logo.png";
 import { useLocation } from "react-router-dom";
 import Axios from "axios";
-import { useReactToPrint } from 'react-to-print';
-import TextareaAutosize from 'react-textarea-autosize';
+import { useReactToPrint } from "react-to-print";
+import TextareaAutosize from "react-textarea-autosize";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../assets/styles/style.css";
 
@@ -42,16 +42,17 @@ function FormPdf() {
   const userFile = Value.userFile;
   const designFile = Value.designFile;
 
-  const dmy = () => {
+  const dmy = useState(() => {
     const day = new Date().getDate();
     const month = new Date().getMonth() + 1;
     const year = new Date().getFullYear() + 543;
     return `${day}/${month}/${year}`;
-  }
+  });
 
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
+    documentTitle: `แบบฟอร์มขอรับการประเมิน`,
   });
 
   const addData = () => {
@@ -89,13 +90,14 @@ function FormPdf() {
     <div className="container-sm">
       <div className="print" ref={componentRef}>
         <div className="text-center my-3">
-          <p className="float-end">{dmy()}</p>
+          <p className="float-end">{dmy}</p>
           <img src={logo} alt="software logo" width="100" height="100" />
-          <h1>แบบฟอร์มขอรับการประเมินและรับรองซอฟต์แวร์กองทัพอากาศ</h1>
+          <h3>แบบฟอร์มขอรับการประเมินและรับรองซอฟต์แวร์กองทัพอากาศ</h3>
         </div>
 
         <p className="my-3">
-          <b>หน่วยงานที่ขอรับการประเมินและรับรองซอฟต์แวร์</b> <u>{corg !== null ? corg : []}</u>
+          <b>หน่วยงานที่ขอรับการประเมินและรับรองซอฟต์แวร์</b>{" "}
+          <u>{corg !== null ? corg : []}</u>
         </p>
 
         <b>ผู้ติดต่อประสานงานของหน่วย</b>
@@ -180,11 +182,13 @@ function FormPdf() {
           </span>
           <br />
           <span>
-            ฮาร์ดแวร์ที่ต้องใช้ (ระบุ) <u>{hardware !== null ? hardware : []}</u>
+            ฮาร์ดแวร์ที่ต้องใช้ (ระบุ){" "}
+            <u>{hardware !== null ? hardware : []}</u>
           </span>
           <br />
           <span>
-            ซอฟต์แวร์ที่ต้องใช้ (ระบุ) <u>{software !== null ? software : []}</u>
+            ซอฟต์แวร์ที่ต้องใช้ (ระบุ){" "}
+            <u>{software !== null ? software : []}</u>
           </span>
           <br />
           <span>
@@ -202,27 +206,57 @@ function FormPdf() {
           />
         </div>
 
-        <p className="my-3">
-          <b>หน่วยผู้ใช้งานซอฟต์แวร์</b> <u>{orguser !== null ? orguser : []}</u>
-        </p>
-        <p className="my-3">
-          <b>สถานที่ติดตั้งซอฟต์แวร์</b> <u>{place !== null ? place : []}</u>
-        </p>
-        <p className="my-3">
-          <b>ผู้ผลิตซอฟต์แวร์</b> <u>{producer !== null ? producer : []}</u>
-        </p>
-        <p className="my-3">
-          <b>ผู้รับผิดชอบดูแลซอฟต์แวร์</b> <u>{admin !== null ? admin : []}</u>
-        </p>
-        <p className="my-3">
-          <b>หน่วยงานเจ้าของซอฟต์แวร์</b> <u>{orgown !== null ? orgown : []}</u>
-        </p>
-        <p className="my-3">
-          <b>หน่วยงานบริหารและกำกับดูแลซอฟต์แวร์</b> <u>{orgadmin !== null ? orgadmin : []}</u>
-        </p>
+        <div className="my-3">
 
+          <div className="row">
+            <div className="col-6">
+              <p>
+                <b>หน่วยผู้ใช้งานซอฟต์แวร์</b>{" "}
+                <u>{orguser !== null ? orguser : []}</u>
+              </p>
+            </div>
+            <div className="col-6">
+              <p>
+                <b>สถานที่ติดตั้งซอฟต์แวร์</b>{" "}
+                <u>{place !== null ? place : []}</u>
+              </p>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-6">
+              <p>
+                <b>ผู้ผลิตซอฟต์แวร์</b>{" "}
+                <u>{producer !== null ? producer : []}</u>
+              </p>
+            </div>
+            <div className="col-6">
+              <p>
+                <b>ผู้รับผิดชอบดูแลซอฟต์แวร์</b>{" "}
+                <u>{admin !== null ? admin : []}</u>
+              </p>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-6">
+              <p>
+                <b>หน่วยงานเจ้าของซอฟต์แวร์</b>{" "}
+                <u>{orgown !== null ? orgown : []}</u>
+              </p>
+            </div>
+            <div className="col-6">
+              <p>
+                <b>หน่วยงานบริหารและกำกับดูแลซอฟต์แวร์</b>{" "}
+                <u>{orgadmin !== null ? orgadmin : []}</u>
+              </p>
+            </div>
+          </div>
+
+        </div>
       </div>
-      <p className="my-3">
+
+      <p>
         <b>ช่องทางการใช้งานซอฟต์แวร์</b>{" "}
         <u>{useFile !== undefined ? useFile.name : []}</u>
       </p>
@@ -263,7 +297,7 @@ function FormPdf() {
             data-placement="bottom"
             title="ยืนยันความถูกต้องก่อนทำการพิมพ์"
             disabled={!isChecked}
-          onClick={handlePrint}
+            onClick={handlePrint}
           >
             PRINT
           </button>
