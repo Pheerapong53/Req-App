@@ -2,14 +2,26 @@
     font-family: 'Sarabun', sans-serif;
 }
 
+
 @media print {
     .print{
+      size: A4;
+    display: block;
+    /* width: 210mm;
+    min-height: 297mm; */
     font-family: 'Sarabun', sans-serif;
     font-size: 13px;
-      margin: 30px ;
+    margin: 5% ;
+    overflow: hidden;
+    page-break-before: auto;
     }
+    
+
+
+  #footer {display:none;}
 
     .form-control {
+      overflow-y: hidden;
       font-size: 13px;
     }
   }

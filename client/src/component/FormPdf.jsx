@@ -3,9 +3,26 @@ import logo from "../img/logo.png";
 import { useLocation } from "react-router-dom";
 import Axios from "axios";
 import { useReactToPrint } from "react-to-print";
+// import {Page, Text, View, Document, StyleSheet} from 'react-pdf';
 import TextareaAutosize from "react-textarea-autosize";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../assets/styles/style.css";
+
+
+
+// const styles = StyleSheet.create({
+//   page: {
+//     flexDirection: 'row',
+//     backgroundColor: '#E4E4E4'
+//   },
+//   section: {
+//     margin: 10,
+//     padding: 10,
+//     flexGrow: 1
+//   }
+// });
+
 
 function FormPdf() {
   const [isChecked, setIsChecked] = useState(false);
@@ -88,7 +105,12 @@ function FormPdf() {
   //console.log(location);
   return (
     <div className="container-sm">
+      
       <div className="print" ref={componentRef}>
+        {/* <Document>
+          <Page size="A4" style={styles.page}>
+            <View style={styles.section}> */}
+ 
         <div className="text-center my-3">
           <p className="float-end">{dmy}</p>
           <img src={logo} alt="software logo" width="100" height="100" />
@@ -254,7 +276,12 @@ function FormPdf() {
           </div>
 
         </div>
+        {/* </View>
+          </Page>
+        </Document> */}
+        
       </div>
+      
 
       <p>
         <b>ช่องทางการใช้งานซอฟต์แวร์</b>{" "}
@@ -271,7 +298,9 @@ function FormPdf() {
         <u>{designFile !== undefined ? designFile.name : []}</u>
       </p>
 
-      <div className="text-center my-3">
+<div id="footer">
+
+<div className="text-center my-3">
         <input
           className="form-check-input mx-2"
           type="checkbox"
@@ -330,6 +359,9 @@ function FormPdf() {
           </b>
         </h5>
       </div>
+
+</div>
+          
     </div>
   );
 }
