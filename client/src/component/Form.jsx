@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import UploadFile from "./UploadFile";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../img/logo.png";
 import "../assets/styles/style.css";
@@ -555,6 +556,7 @@ const Form = () => {
                   />
                 </div>
               </div>
+              <UploadFile />
             </div>
           </div>
           <div className="text-center p-3">

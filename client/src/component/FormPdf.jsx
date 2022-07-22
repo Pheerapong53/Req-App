@@ -3,6 +3,7 @@ import logo from "../img/logo.png";
 import { useLocation } from "react-router-dom";
 import Axios from "axios";
 import { useReactToPrint } from "react-to-print";
+
 // import {Page, Text, View, Document, StyleSheet} from 'react-pdf';
 import TextareaAutosize from "react-textarea-autosize";
 
