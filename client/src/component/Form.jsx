@@ -1,13 +1,143 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import UploadFile from "./UploadFile";
+//import UploadFile from "./UploadFile";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../img/logo.png";
 import "../assets/styles/style.css";
 
-const Form = () => {
-  //add data to localStorage
+//Import Worker
+import { Worker } from "@react-pdf-viewer/core";
+// Import the main Viewer component
+import { Viewer } from "@react-pdf-viewer/core";
+// Import the styles
+import "@react-pdf-viewer/core/lib/styles/index.css";
+// default layout plugin
+import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
+// Import styles of default layout plugin
+import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 
+const Form = () => {
+  //Preview PDF
+
+  //creating new plugin instance
+  const defaultLayoutPluginInstance = defaultLayoutPlugin();
+  const defaultLayoutPluginInstance1 = defaultLayoutPlugin();
+  const defaultLayoutPluginInstance2 = defaultLayoutPlugin();
+
+  //usefile onchange state
+  const [useFilename, setUseFileName] = useState(() => {
+    const saved = localStorage.getItem("form");
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.useFilename : [];
+  });
+
+  // const [useFile, setUseFile] = useState(null);
+  const [useFile, setUseFile] = useState(() => {
+    const saved = localStorage.getItem("form");
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.useFile : [];
+  });
+
+  
+  //usefile error state
+  const [useFileError, setUseFileError] = useState("");
+  
+  //userfile onchange state
+  // const [userFile, setUserFile] = useState(null);
+  const [userFilename, setUserFileName] = useState(() => {
+    const saved = localStorage.getItem("form");
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.userFilename : [];
+  });
+
+  const [userFile, setUserFile] = useState(() => {
+    const saved = localStorage.getItem("form");
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.userFile : [];
+  });
+  //userfile error state
+  const [userFileError, setUserFileError] = useState("");
+
+  //designfile onchange state
+
+  const [designFilename, setDesignFileName] = useState(() => {
+    const saved = localStorage.getItem("form");
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.designFilename : [];
+  });
+  // const [designFile, setDesignFile] = useState(null);
+  const [designFile, setDesignFile] = useState(() => {
+    const saved = localStorage.getItem("form");
+    const Value = JSON.parse(saved);
+    return saved !== null ? Value.designFile : [];
+  });
+  //designfile error state
+  const [designFileError, setDesignFileError] = useState("");
+
+  //handle file onchange event
+  const allowedFiles = ["application/pdf"];
+
+  const handleUseFileChange = (e) => {
+    let selectedFile = e.target.files[0];
+    if (selectedFile) {
+      if (selectedFile && allowedFiles.includes(selectedFile.type)) {
+        let reader = new FileReader();
+        reader.readAsDataURL(selectedFile);
+        reader.onloadend = (e) => {
+          setUseFileError("");
+          setUseFile(e.target.result);
+          setUseFileName(selectedFile.name);
+        };
+      } else {
+        setUseFileError("Not a valid pdf: Please select only PDF");
+        setUseFile("");
+      }
+    } else {
+      console.log("please select a PDF");
+    }
+  };
+
+  const handleUserFileChange = (e) => {
+    let selectedFile = e.target.files[0];
+    if (selectedFile) {
+      if (selectedFile && allowedFiles.includes(selectedFile.type)) {
+        let reader = new FileReader();
+        reader.readAsDataURL(selectedFile);
+        reader.onloadend = (e) => {
+          setUserFileError("");
+          setUserFile(e.target.result);
+          setUserFileName(selectedFile.name);
+        };
+      } else {
+        setUserFileError("Not a valid pdf: Please select only PDF");
+        setUserFile("");
+      }
+    } else {
+      console.log("please select a PDF");
+    }
+  };
+
+  const handleDesignFileChange = (e) => {
+    let selectedFile = e.target.files[0];
+    if (selectedFile) {
+      if (selectedFile && allowedFiles.includes(selectedFile.type)) {
+        let reader = new FileReader();
+        reader.readAsDataURL(selectedFile);
+        reader.onloadend = (e) => {
+          setDesignFileError("");
+          setDesignFile(e.target.result);
+          setDesignFileName(selectedFile.name);
+        };
+      } else {
+        setDesignFileError("Not a valid pdf: Please select only PDF");
+        setDesignFile("");
+      }
+    } else {
+      console.log("please select a PDF");
+    }
+  };
+
+  //add data to localStorage
   const [corg, setCorg] = useState(() => {
     const saved = localStorage.getItem("form");
     const Value = JSON.parse(saved);
@@ -108,12 +238,12 @@ const Form = () => {
     const Value = JSON.parse(saved);
     return saved !== null ? Value.orgadmin : [];
   });
-
-  const [useFile, setUseFile] = useState();
-  const [userFile, setUserFile] = useState();
-  const [designFile, setDesignFile] = useState();
   
+  //const [useFile, setUseFile] = useState(null);
+  //const [userFile, setUserFile] = useState();
+  //const [designFile, setDesignFile] = useState();
 
+  //prepare for pdf
   const initialValue = {
     corg: corg,
     cname: cname,
@@ -135,8 +265,11 @@ const Form = () => {
     admin: admin,
     orgown: orgown,
     orgadmin: orgadmin,
+    useFilename: useFilename,
     useFile: useFile,
+    userFilename: userFilename,
     userFile: userFile,
+    designFilename: designFilename,
     designFile: designFile,
   };
 
@@ -155,10 +288,11 @@ const Form = () => {
     });
   };
 
-  //console.log(corg);
+  console.log(useFilename);
   return (
     <div className="container-fluid">
       <div className="container">
+        {/* header */}
         <div className="row justify-content-center">
           <div className="col-auto">
             <img
@@ -177,6 +311,7 @@ const Form = () => {
         </div>
 
         <form onSubmit={handleSubmit}>
+          {/* หน่วยงานที่ร้องขอ */}
           <div className="form-floating">
             <input
               id="corg"
@@ -233,7 +368,6 @@ const Form = () => {
               />
               <label htmlFor="cdep">ตำแหน่ง</label>
             </div>
-
             <br />
           </div>
 
@@ -419,6 +553,7 @@ const Form = () => {
               <label htmlFor="user">จำนวนผู้ใช้งานโดยประมาณ</label>
             </div>
             <br />
+
             <label htmlFor="other">
               <b>อื่น ๆ :</b>
             </label>
@@ -515,8 +650,9 @@ const Form = () => {
               </label>
             </div>
             <br />
+
             <div className="form-group">
-              <h5>กรุณาอัปโหลดเอกสารดังต่อไปนี้</h5>
+              <h5>กรุณาอัปโหลดเอกสารดังต่อไปนี้ (เฉพาะไฟล์ PDF)</h5>
               <div className="row">
                 <label className="col-2 col-form-label">
                   <b>ช่องทางการใช้งานซอฟต์แวร์</b>
@@ -525,9 +661,33 @@ const Form = () => {
                   <input
                     className="form-control-sm"
                     type="file"
-                    onChange={(e) => setUseFile(e.target.files[0])}
+                    onChange={handleUseFileChange}
+                    // onChange={(e) => {
+                    //   setUseFileName(e.target.files[0].name);
+                    //   handleUseFileChange();
+                    // }}
                     //required
                   />
+                  {useFileError && (
+                    <span className="text-danger">{useFileError}</span>
+                  )}
+
+                  {/* <h4>View PDF</h4>
+                  <div className="viewer">
+                   
+                    {useFile && (
+                      <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.15.349/build/pdf.worker.min.js">
+                        <Viewer
+                          fileUrl={useFile}
+                          plugins={[defaultLayoutPluginInstance]}
+                        />
+                      </Worker>
+                    )}
+
+                   
+                    {!useFile && <>No file is selected yet</>}
+                  </div> */}
+                  
                 </div>
               </div>
               <div className="row">
@@ -538,9 +698,30 @@ const Form = () => {
                   <input
                     className="form-control-sm"
                     type="file"
-                    onChange={(e) => setUserFile(e.target.files[0])}
+                    onChange={handleUserFileChange}
+                    // onChange={(e) => setUserFile(e.target.files[0])}
                     //required
                   />
+                  {userFileError && (
+                    <span className="text-danger">{userFileError}</span>
+                  )}
+
+                  {/* <h4>View PDF</h4>
+                  <div className="viewer">
+                   
+                    {userFile && (
+                      <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.15.349/build/pdf.worker.min.js">
+                        <Viewer
+                          fileUrl={userFile}
+                          plugins={[defaultLayoutPluginInstance1]}
+                        />
+                      </Worker>
+                    )}
+
+                   
+                    {!userFile && <>No file is selected yet</>}
+                  </div> */}
+
                 </div>
               </div>
               <div className="row">
@@ -551,12 +732,32 @@ const Form = () => {
                   <input
                     className="form-control-sm"
                     type="file"
-                    onChange={(e) => setDesignFile(e.target.files[0])}
+                    onChange={handleDesignFileChange}
+                    // onChange={(e) => setDesignFile(e.target.files[0])}
                     //required
                   />
+                  {designFileError && (
+                    <span className="text-danger">{designFileError}</span>
+                  )}
+
+                  {/* <h4>View PDF</h4>
+                  <div className="viewer">
+                   
+                    {designFile && (
+                      <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.15.349/build/pdf.worker.min.js">
+                        <Viewer
+                          fileUrl={designFile}
+                          plugins={[defaultLayoutPluginInstance2]}
+                        />
+                      </Worker>
+                    )}
+
+                   
+                    {!designFile && <>No file is selected yet</>}
+                </div> */}
+
                 </div>
               </div>
-              <UploadFile />
             </div>
           </div>
           <div className="text-center p-3">

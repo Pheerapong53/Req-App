@@ -4,7 +4,9 @@ const mysql = require("mysql");
 const cors = require("cors");
 
 app.use(cors());
-app.use(express.json());
+//app.use(express.json());
+app.use(express.json({limit: "10mb", extended: true}));
+app.use(express.urlencoded({limit: "10mb", extended: true, parameterLimit: 50000}));
 
 //เชื่อมต่อDatabase
 const data = mysql.createConnection({
@@ -16,7 +18,7 @@ const data = mysql.createConnection({
 
 app.post("/AddData", (req, res) => {
   const sqlInsert =
-    "INSERT INTO contactor (corg,cname,ctel,cdep,softname,type,obj,des,os,hardware,software,db,user,other,orguser,place,producer,admin,orgown,orgadmin,useFile,userFile,designFile,date) VALUES ?";
+    "INSERT INTO contactor (corg,cname,ctel,cdep,softname,type,obj,des,os,hardware,software,db,user,other,orguser,place,producer,admin,orgown,orgadmin,useFilename,useFile,userFilename,userFile,designFilename,designFile,dmy) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     const corg = req.body.corg;
     const cname = req.body.cname;
     const ctel = req.body.ctel;
@@ -37,10 +39,13 @@ app.post("/AddData", (req, res) => {
     const admin = req.body.admin;
     const orgown = req.body.orgown;
     const orgadmin = req.body.orgadmin;
+    const useFilename = req.body.useFilename;
     const useFile = req.body.useFile;
+    const userFilename = req.body.userFilename;
     const userFile = req.body.userFile;
+    const designFilename = req.body.designFilename;
     const designFile = req.body.designFile;
-    const date = req.body.date;
+    const dmy = req.body.dmy;
   data.query(
     sqlInsert,
     [
@@ -64,10 +69,13 @@ app.post("/AddData", (req, res) => {
         admin,
         orgown,
         orgadmin,
+        useFilename,
         useFile,
+        userFilename,
         userFile,
+        designFilename,
         designFile,
-        date,
+        dmy,
     ],
     (err, result) => {
       if (err) {
@@ -77,6 +85,19 @@ app.post("/AddData", (req, res) => {
       }
     }
   );
+});
+
+app.get("/Table", (req, res) => {
+  const sqlSelect =
+    //"SELECT SubjectId AS id,SubjectNr,SubjectName,SubjectCreditOrScore FROM tbcoursesubjects WHERE CourseId = 011";
+    "SELECT cid AS id,softname,type,cname,ctel,dmy FROM contactor";
+  data.query(sqlSelect, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  });
 });
 
 app.listen("3001", () => {

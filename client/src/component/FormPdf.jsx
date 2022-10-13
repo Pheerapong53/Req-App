@@ -7,6 +7,17 @@ import { useReactToPrint } from "react-to-print";
 // import {Page, Text, View, Document, StyleSheet} from 'react-pdf';
 import TextareaAutosize from "react-textarea-autosize";
 
+//Import Worker
+import { Worker } from "@react-pdf-viewer/core";
+// Import the main Viewer component
+import { Viewer } from "@react-pdf-viewer/core";
+// Import the styles
+import "@react-pdf-viewer/core/lib/styles/index.css";
+// default layout plugin
+import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
+// Import styles of default layout plugin
+import "@react-pdf-viewer/default-layout/lib/styles/index.css";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../assets/styles/style.css";
 
@@ -56,8 +67,11 @@ function FormPdf() {
   const admin = Value.admin;
   const orgown = Value.orgown;
   const orgadmin = Value.orgadmin;
+  const useFilename = Value.useFilename;
   const useFile = Value.useFile;
+  const userFilename = Value.userFilename;
   const userFile = Value.userFile;
+  const designFilename = Value.designFilename;
   const designFile = Value.designFile;
 
   const dmy = useState(() => {
@@ -66,6 +80,7 @@ function FormPdf() {
     const year = new Date().getFullYear() + 543;
     return `${day}/${month}/${year}`;
   });
+console.log(dmy[0]);
 
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
@@ -95,14 +110,24 @@ function FormPdf() {
       admin: admin,
       orgown: orgown,
       orgadmin: orgadmin,
+      useFilename: useFilename,
       useFile: useFile,
+      userFilename: userFilename,
       userFile: userFile,
+      designFilename: designFilename,
       designFile: designFile,
+      dmy: dmy[0],
     }).then((res) => {
       console.log(res);
       console.log(res.data);
     });
+    localStorage.clear();
   };
+
+
+  const defaultLayoutPluginInstance = defaultLayoutPlugin();
+  const defaultLayoutPluginInstance1 = defaultLayoutPlugin();
+  const defaultLayoutPluginInstance2 = defaultLayoutPlugin();
   //console.log(location);
   return (
     <div className="container-sm">
@@ -225,7 +250,7 @@ function FormPdf() {
           <span>อื่น ๆ (ระบุ)</span>
           <TextareaAutosize
             className="form-control"
-            value={other !== null ? other : []}
+            value={other !== null ? other : " "}
           />
         </div>
 
@@ -286,20 +311,68 @@ function FormPdf() {
 
       <p>
         <b>ช่องทางการใช้งานซอฟต์แวร์</b>{" "}
-        <u>{useFile !== undefined ? useFile.name : []}</u>
+        <u>{useFilename !== undefined ? useFilename : []}</u>
       </p>
+
+      <h4>View PDF</h4>
+                  <div className="viewer">
+                    {/* render this if we have a pdf file */}
+                    {useFile && (
+                      <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.15.349/build/pdf.worker.min.js">
+                        <Viewer
+                          fileUrl={useFile}
+                          plugins={[defaultLayoutPluginInstance]}
+                        />
+                      </Worker>
+                    )}
+
+                    {/* render this if we have pdfFile state null   */}
+                    {!useFile && <>No file is selected yet</>}
+                  </div>
 
       <p className="my-3">
         <b>คู่มือการใช้งานซอฟต์แวร์</b>{" "}
-        <u>{userFile !== undefined ? userFile.name : []}</u>
+        <u>{userFilename !== undefined ? userFilename : []}</u>
       </p>
+      <h4>View PDF</h4>
+                  <div className="viewer">
+                    {/* render this if we have a pdf file */}
+                    {useFile && (
+                      <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.15.349/build/pdf.worker.min.js">
+                        <Viewer
+                          fileUrl={userFile}
+                          plugins={[defaultLayoutPluginInstance1]}
+                        />
+                      </Worker>
+                    )}
+
+                    {/* render this if we have pdfFile state null   */}
+                    {!userFile && <>No file is selected yet</>}
+                  </div>
 
       <p className="my-3">
         <b>เอกสารออกแบบซอฟต์แวร์</b>{" "}
-        <u>{designFile !== undefined ? designFile.name : []}</u>
+        <u>{designFilename !== undefined ? designFilename : []}</u>
       </p>
+      <h4>View PDF</h4>
+                  <div className="viewer">
+                    {/* render this if we have a pdf file */}
+                    {designFile && (
+                      <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.15.349/build/pdf.worker.min.js">
+                        <Viewer
+                          fileUrl={designFile}
+                          plugins={[defaultLayoutPluginInstance2]}
+                        />
+                      </Worker>
+                    )}
+
+                    {/* render this if we have pdfFile state null   */}
+                    {!useFile && <>No file is selected yet</>}
+                  </div>
 
 <div id="footer">
+
+
 
 <div className="text-center my-3">
         <input
@@ -340,7 +413,11 @@ function FormPdf() {
               data-placement="bottom"
               title="ยืนยันความถูกต้องก่อนทำการบันทึก"
               disabled={!isChecked}
-              onClick={() => localStorage.clear()}
+              // onChange={(e) => {
+              //         addData();
+              //         localStorage.clear();
+              //       }}
+              onClick={addData}
             >
               SAVE
             </button>
